@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+config="$HOME/.config/retroarch/retroarch.cfg"
+
+core_snes="$HOME/.config/retroarch/cores/snes9x_libretro.so" core_nes="$HOME/.config/retroarch/cores/mesen_libretro.so" core_gb="$HOME/.config/retroarch/cores/sameboy_libretro.so" core_n64="$HOME/.config/retroarch/cores/parallel_n64_libretro.so"
+
+case “$1” in *.fds) core="$core_nes" ;; *.nes) core="$core_nes" ;; *.smc) core="$core_snes" ;; *.sfc) core="$core_snes" ;; *.gb) core="$core_gb" ;; *.gbc) core="$core_gbc" ;; *.z64) core="$core_n64" ;; *.n64) core="$core_n64" ;;
+
+esac
+
+PS3='Please enter your choice: '
+options=("Play Nintendo Game" "Play Super Nintendo Game" "Quit") COLUMNS=0
+select opt in "${options[@]}"; do
+	case $opt in
+	"Play Nintendo Game")
+		. nes
+		clear
+		exit
+		;;
+	"Play Super Nintendo Game")
+		. snes
+		clear
+		exit
+		;;
+	"Option 3")
+		"you choose choice $REPLY which is $opt"
+		;;
+	"Quit")
+		clear
+		break
+		;;
+	*) echo “invalid option $REPLY” ;;
+	esac
+done

@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+BASE=$HOME/projects/golang/$1
+mkdir -vp $BASE/{bin,cmd,internal/{adapters/{handler,repository},core/{domain,ports,services}}}
+touch $BASE/cmd/main.go \
+      $BASE/internal/adapters/handler/http.go \
+      $BASE/internal/adapters/repository/postgres.go \
+      $BASE/internal/core/domain/model.go \
+      $BASE/internal/core/ports/ports.go \
+      $BASE/internal/core/services/services.go \
+      $BASE/.env \
+      $BASE/Makefile
+cat << EOF > $BASE/Makefile
+BINARY_NAME=example
+
+build:
+	mkdir bin
+	GOARCH=amd64 GOOS=linux go build -o bin/\$(BINARY_NAME)-linux cmd/main.go
+
+run:
+	go run cmd/main.go
+
+clean:
+	go clean
+	rm -rf ./bin
+
+dep:
+	go mod download
+
+EOF

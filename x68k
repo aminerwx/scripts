@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+function error() {
+	echo "$1"
+	exit
+}
+
+# TODO: select all possible libretro cores for this console
+CORE_X68K="/usr/lib/libretro/px68k_libretro.so"
+
+SHADER_DIR="/usr/share/libretro/shaders/Mega_Bezel_Packs/Duimon-Mega-Bezel/Presets/Advanced"
+
+X68K_SHADER_PATH="$SHADER_DIR/Sharp_x68000/x68000_Expert-[ADV]-[Guest]-[PVM20]-[Night].slangp"
+
+ROM_BASE_DIR="$HOME/share/games/x68"
+
+#FILE_GUI=$(zenity --file-selection --filename="$HOME/share/games/x68k/" --file-filter=" "*.zip"" --title="Select a Game")
+ROM_FILE=$(find $ROM_BASE_DIR -type f -iname "*.dim" -printf "%f\n" | dmenu -i -l 40 | awk -F"\"[,:]* *\"*" '{ print $1; }')
+
+ROM_PATH="$ROM_BASE_DIR/$ROM_FILE"
+
+[[ ! -z $ROM_FILE ]] && [[ -f $ROM_PATH ]] || error "ROM file not selected or doesn't exists"
+
+[[ -f $CORE_X68K ]] || error "Core not found or doesn't exists"
+
+retroarch -L $CORE_X68K -f --set-shader=$X68K_SHADER_PATH "$ROM_PATH" &

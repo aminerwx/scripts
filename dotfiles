@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+install_pkg() {
+	PS3='Enter packages to install: '
+	pkg_base=(
+		'git'
+		'neovim'
+		'ttf-jetbrains-mono-nerd'
+		'noto-fonts'
+		'fastfetch'
+		'alacritty'
+		'base-devel'
+		'bash-completion'
+		'firefox'
+		'lazygit'
+		'man-db'
+		'man-pages'
+		'ripgrep'
+		'rsync'
+		'sudo'
+		'tree'
+		'alacritty'
+		'base-devel'
+		'bash'
+		'bash-completion'
+		'btop'
+		'fastfetch'
+		'firefox'
+	)
+
+	pkg_full=(
+		'git'
+		'go'
+		'neovim'
+		'lazygit'
+		'keepassxc'
+		'lutris'
+		'man-db'
+		'man-pages'
+		'noto-fonts'
+		'nvidia'
+		'nvidia-settings'
+		'nvidia-utils'
+		'postgresql'
+		'ripgrep'
+		'rsync'
+		'solaar'
+		'sudo'
+		'tree'
+		'ttf-jetbrains-mono-nerd'
+		'ufw'
+		'yt-dlp'
+	)
+
+	options=("pkglist_base.txt" "pkglist_full.txt")
+	select opt in "${options[@]}"; do
+		case $opt in
+		"pkglist_base.txt")
+			echo "Installing base packages"
+			sudo pacman -S --needed --noconfirm "${pkg_base[@]}"
+			break
+			;;
+		"pkglist_full.txt")
+			echo "Installing full packages"
+			sudo pacman -S --needed --noconfirm "${pkg_full[@]}"
+			break
+			;;
+		*) echo "invalid option $REPLY" ;;
+		esac
+	done
+}
+
+dotfiles_setup() {
+	git clone --separate-git-dir=$HOME/.dotfiles https://github.com/aminerwx/.dotfiles.git tmpdotfiles
+	rsync --recursive --verbose --exclude '.git' tmpdotfiles/ $HOME/
+	rm -r tmpdotfiles
+}
+
+# TODO: handle .dotfiles
+echo "######## dotfiles setup ########"
+
+install_pkg
+dotfiles_setup

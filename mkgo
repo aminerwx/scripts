@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+: '
+TODO:
+create directory in current directory with $1 name
+cd to $1
+create go mod $1
+touch main.go
+append fun main
+'
+project_name=$1
+project_directory="$HOME/projects/go/$1"
+
+create_dir() {
+	[ -d $project_name ] && echo "Project $project_name already exist" && exit 1
+	[ $project_name ] && mkdir $project_directory && cd $project_directory
+}
+create_go() {
+	go mod init $project_name
+	touch main.go
+	cat >main.go <<EOF
+package main
+
+import "fmt"
+
+func main() {
+ fmt.Println("Hello, $project_name") 
+}
+EOF
+}
+
+create_dir
+create_go
+$SHELL
+clear

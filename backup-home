@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+find ~/backup/weekly/* -mtime -7 -delete
+pacman -Qqe > ~/backup/weekly/pacman-pkg-$(date +%Y%m%d).txt
+tar -zcf ~/backup/weekly/backup-home-$(date +%Y%m%d).tar.gz -X ~/scripts/exclude_file.txt -C ~/ .
+rsync -a --delete /home/aminerwx/backup/ /mnt/hdd/backup

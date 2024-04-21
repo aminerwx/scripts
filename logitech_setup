@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+PKG=solaar
+if pacman -Qi $PKG > /dev/null;
+        printf "Solaar already installed!\n"
+else
+        sudo pacman -S $PKG;
+fi
+sudo groupadd plugdev
+sudo usermod -aG plugdev "$USER"
+sudo udevadm control --reload-rules
+printf "created plugdev group\n"
+printf "Added $USER to plugdev group\nPlease log out\n"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+TAB="$(printf '\t')"
 : '
 TODO:
 create directory in current directory with $1 name
@@ -17,7 +17,7 @@ create_dir() {
 }
 create_go() {
 	go mod init $project_name
-	touch main.go
+	mkdir bin
 	cat >main.go <<EOF
 package main
 
@@ -26,6 +26,19 @@ import "fmt"
 func main() {
  fmt.Println("Hello, $project_name") 
 }
+EOF
+	cat >Makefile <<EOF
+run:
+${TAB}@go run main.go
+
+build:
+${TAB}@go build -o bin/${project_name} main.go
+
+clean:
+${TAB}@rm bin/$project_name
+
+all: clean build
+${TAB}@./bin/$project_name
 EOF
 }
 

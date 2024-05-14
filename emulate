@@ -2,7 +2,8 @@
 
 config="$HOME/.config/retroarch/retroarch.cfg"
 
-core_snes="$HOME/.config/retroarch/cores/snes9x_libretro.so" core_nes="$HOME/.config/retroarch/cores/mesen_libretro.so" core_gb="$HOME/.config/retroarch/cores/sameboy_libretro.so" core_n64="$HOME/.config/retroarch/cores/parallel_n64_libretro.so"
+core_snes="$HOME/.config/retroarch/cores/snes9x_libretro.so"
+core_nes="$HOME/.config/retroarch/cores/mesen_libretro.so" core_gb="$HOME/.config/retroarch/cores/sameboy_libretro.so" core_n64="$HOME/.config/retroarch/cores/parallel_n64_libretro.so"
 
 case “$1” in *.fds) core="$core_nes" ;; *.nes) core="$core_nes" ;; *.smc) core="$core_snes" ;; *.sfc) core="$core_snes" ;; *.gb) core="$core_gb" ;; *.gbc) core="$core_gbc" ;; *.z64) core="$core_n64" ;; *.n64) core="$core_n64" ;;
 

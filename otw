@@ -1,0 +1,5 @@
+#!/bin/env bash
+
+level="bandit$1"
+
+ssh -p 2220 "$level@bandit.labs.overthewire.org"

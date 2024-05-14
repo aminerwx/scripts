@@ -6,8 +6,8 @@ function error() {
 }
 
 # TODO: select all possible libretro cores for this console
-CORE_SNES="/usr/lib/libretro/bsnes_libretro.so"
-#CORE_SNES="/usr/lib/libretro/snes9x_libretro.so"
+#CORE_SNES="/usr/lib/libretro/bsnes_libretro.so"
+CORE_SNES="/usr/lib/libretro/snes9x_libretro.so"
 
 SHADER_DIR="/usr/share/libretro/shaders/Mega_Bezel_Packs/Duimon-Mega-Bezel/Presets/Advanced"
 
@@ -16,7 +16,8 @@ SNES_SHADER_PATH="$SHADER_DIR/Nintendo_Super_Famicom/Super_Famicom_Alt-[ADV]-[Gu
 ROM_BASE_DIR="$HOME/share/games/snes"
 
 #FILE_GUI=$(zenity --file-selection --filename="$HOME/share/games/snes/" --file-filter=" "*.zip"" --title="Select a Game")
-ROM_FILE=$(find ~/share/games/snes/ -type f -iname "*.zip" -printf "%f\n" | dmenu -i -l 40 | awk -F"\"[,:]* *\"*" '{ print $1; }')
+ROM_FILE=$(find ~/share/games/snes/ -type f -iname "*.zip" -printf "%f\n" | wofi --dmenu | awk -F"\"[,:]* *\"*" '{ print $1; }')
+#ROM_FILE=$(find ~/share/games/snes/ -type f -iname "*.zip" -printf "%f\n" | dmenu -i -l 40 | awk -F"\"[,:]* *\"*" '{ print $1; }')
 
 ROM_PATH="$ROM_BASE_DIR/$ROM_FILE"
 
@@ -24,4 +25,4 @@ ROM_PATH="$ROM_BASE_DIR/$ROM_FILE"
 
 [[ -f $CORE_SNES ]] || error "Core not found or doesn't exists"
 
-retroarch -L $CORE_SNES -f --set-shader=$SNES_SHADER_PATH "$ROM_PATH" &
+retroarch -L $CORE_SNES -f --set-shader="$SNES_SHADER_PATH" "$ROM_PATH" &

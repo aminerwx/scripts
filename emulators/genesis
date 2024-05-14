@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+function error() {
+	echo "$1"
+	exit
+}
+
+# TODO: select all possible libretro cores for this console
+CORE_SNES="/usr/lib/libretro/picodrive_libretro.so"
+#CORE_SNES="/usr/lib/libretro/snes9x_libretro.so"
+
+SHADER_DIR="/usr/share/libretro/shaders/Mega_Bezel_Packs/Duimon-Mega-Bezel/Presets/Advanced"
+
+SNES_SHADER_PATH="$SHADER_DIR/Nintendo_Super_Famicom/Super_Famicom_Alt-[ADV]-[Guest]-[PVM20]-[Night].slangp"
+
+ROM_BASE_DIR="$HOME/share/games/genesis"
+
+#FILE_GUI=$(zenity --file-selection --filename="$HOME/share/games/snes/" --file-filter=" "*.zip"" --title="Select a Game")
+ROM_FILE=$(find $ROM_BASE_DIR -type f -iname "*.zip" -printf "%f\n" | dmenu -i -l 40 | awk -F"\"[,:]* *\"*" '{ print $1; }')
+
+ROM_PATH="$ROM_BASE_DIR/$ROM_FILE"
+
+[[ ! -z $ROM_FILE ]] && [[ -f $ROM_PATH ]] || error "ROM file not selected or doesn't exists"
+
+[[ -f $CORE_SNES ]] || error "Core not found or doesn't exists"
+
+retroarch -L $CORE_SNES -f --set-shader=$SNES_SHADER_PATH "$ROM_PATH" &

@@ -14,12 +14,12 @@ options=("Play Nintendo Game" "Play Super Nintendo Game" "Quit") COLUMNS=0
 select opt in "${options[@]}"; do
 	case $opt in
 	"Play Nintendo Game")
-		. nes
+		. "emulators/nes"
 		clear
 		exit
 		;;
 	"Play Super Nintendo Game")
-		. snes
+		. "emulators/snes"
 		clear
 		exit
 		;;

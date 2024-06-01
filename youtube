@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-#yt-dlp https://www.youtube.com/watch?v=w-kt1lXp1Wo -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"
+
 url=$2
 format=$1
-#mp4=-f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"
 
 [[ "$format" == "mp3" ]] && yt-dlp "$url" -N4 -f bestaudio -x --audio-format mp3 --audio-quality 0 --add-metadata -o "$XDG_MUSIC_DIR/%(title)s.%(ext)s"
 [[ "$format" == "mp4" ]] && yt-dlp "$url" -N 4 -f "bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -S vcodec:h264 -o "$XDG_VIDEOS_DIR/%(title)s.%(ext)s"
